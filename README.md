@@ -1,4 +1,4 @@
-**Effective Strategies for Data Extraction with Web-Scraping**
+<h1 align="center">**Effective Strategies for Data Extraction with Web-Scraping**</h1>
 
 This was posted to my Substack Blog Chi2Snake or "KySnek," a pseudonym that was at one point associated with this GitHub Profile too. 
 
