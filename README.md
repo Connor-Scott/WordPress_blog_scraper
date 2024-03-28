@@ -22,7 +22,7 @@ To set up a Scrapy implementation use this file architecture or something simila
 │       ├── spider1.py
 │       └── spider2.py
 └── scrapy.cfg**
-](https://github.com/Connor-Scott/WordPress_blog_scraper/assets/141468326/5e1208a1-a6c1-49dd-9f70-17bdeb0896e0)
+](https://github.com/Connor-Scott/WordPress_blog_scraper/assets/141468326/5e1208a1-a6c1-49dd-9f70-17bdeb0896e0
  "Schematic of Scrapy Scraper Architecture")
 
 
