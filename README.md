@@ -1,4 +1,5 @@
 **Effective Strategies for Data Extraction with Web-Scraping**
+
 This was posted to my Substack Blog Chi2Snake or "KySnek," a pseudonym that was at one point associated with this GitHub Profile too. 
 
 
@@ -9,6 +10,20 @@ The best library for web scraping is Scrapy in my opinion. It has inbuilt suppor
 If you just need to import a single document, use the requests library. For any task that can truly be called web scraping, you’re best bet is to use Scrapy. A notable limitation of Scrapy however is its lack of built-in tools for directly interacting with JavaScript-generated content. Any webpage that buries links in a backend databases and requires a user to send requests to navigate to other pages needs a slightly different approach. For anything that needs JavaScript heavy web automation I recommend using the Playwright library. If you need it to be fast and scalable you should use the asynchronous extension. Beautifulsoup is another good option but I’ve found it’s API less user friendly than Playwright’s. It’s also primarily a parsing library. These are great options if you don’t have a large number of individual pages to scrape. They also require less work in many cases than Scrapy. The work you put into Scrapy does result in a huge payoff for scalability and speed.
 
 To set up a Scrapy implementation use this file architecture or something similar:
+![**scrapyProject/
+├── scrapyProject/
+│   ├── __init__.py
+│   ├── items.py
+│   ├── middlewares.py
+│   ├── pipelines.py
+│   ├── settings.py
+│   └── spiders/
+│       ├── __init__.py
+│       ├── spider1.py
+│       └── spider2.py
+└── scrapy.cfg**
+](https://github.com/Connor-Scott/WordPress_blog_scraper/assets/141468326/5e1208a1-a6c1-49dd-9f70-17bdeb0896e0)
+ "Schematic of Scrapy Scraper Architecture")
 
 
 Inside the spider files you’ll make classes for each spider and set up the scraping architecture. Integrating Playwright with Scrapy is feasible, though implementing Playwright asynchronously within Scrapy is challenging due to its concurrent asynchronous operations. An approach I’ve taken is sending out an asynchronous Playwright program to scout the territory before sending in Scrapy spiders. But this is ideal only if the webpages they link to contain links to other sites in its html content. Otherwise your best bet for sites that rely entirely on client-side scripting with JavaScript is it to just design a Playwright implementation to gather content.
