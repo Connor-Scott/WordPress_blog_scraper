@@ -1,5 +1,5 @@
-###Effective Strategies for Data Extraction
-This was posted to my Substack Blog Chi2Snake or "KySnek," a sudonim that was at one point associated with my GitHub Profile too. 
+**Effective Strategies for Data Extraction with Web-Scraping**
+This was posted to my Substack Blog Chi2Snake or "KySnek," a pseudonym that was at one point associated with this GitHub Profile too. 
 
 
 What perplexes me about most articles you’ll find when you google “web scraping with Python” is how many articles insist on using Selenium. Don’t get me wrong the Python Selenium API has its place but for fast, scalable web scraping it most likely isn’t what you’re looking for. It was originally intended for developers looking to test their webpages. That original use shows when you try to let it loose on a bunch of websites. If those webpages happen to heavily rely on JavaScript it’s a viable option, though I suspect most people really need another library.
