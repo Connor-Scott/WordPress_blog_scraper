@@ -1,50 +1,31 @@
-<h1 align="center">Effective Strategies for Data Extraction with Web-Scraping</h1>
+# Data Extraction Strategies with Web-Scraping: A Comparative Analysis
 
-This was posted to my Substack Blog Chi2Snake or "KySnek," a pseudonym that was at one point associated with this GitHub Profile too. 
+This project is a comprehensive exploration of different web-scraping tools and strategies, with a focus on Python libraries. The goal is to provide a clear understanding of the strengths and weaknesses of each tool, and to offer practical advice on choosing the right tool for a given task. This project was originally published on my blog, Chi2Snake.
 
+## Project Overview
 
-What perplexes me about most articles you’ll find when you google “web scraping with Python” is how many articles insist on using Selenium. Don’t get me wrong the Python Selenium API has its place but for fast, scalable web scraping it most likely isn’t what you’re looking for. It was originally intended for developers looking to test their webpages. That original use shows when you try to let it loose on a bunch of websites. If those webpages happen to heavily rely on JavaScript it’s a viable option, though I suspect most people really need another library.
+Web scraping is a critical skill in the data science toolkit, but the choice of tool can greatly impact the efficiency and effectiveness of the data extraction process. This project examines several Python libraries for web scraping, including Selenium, Scrapy, requests, Playwright, and BeautifulSoup, and provides insights into their performance and suitability for different types of tasks.
 
-The best library for web scraping is Scrapy in my opinion. It has inbuilt support for importing settings, custom middleware, and pipeline data processing protocols. Best of all, Scrapy is very fast, even faster if you turn off auto-throttling and maximize the number of concurrent requests you let it execute.
+## Data and Approach
 
-If you just need to import a single document, use the requests library. For any task that can truly be called web scraping, you’re best bet is to use Scrapy. A notable limitation of Scrapy however is its lack of built-in tools for directly interacting with JavaScript-generated content. Any webpage that buries links in a backend databases and requires a user to send requests to navigate to other pages needs a slightly different approach. For anything that needs JavaScript heavy web automation I recommend using the Playwright library. If you need it to be fast and scalable you should use the asynchronous extension. Beautifulsoup is another good option but I’ve found it’s API less user friendly than Playwright’s. It’s also primarily a parsing library. These are great options if you don’t have a large number of individual pages to scrape. They also require less work in many cases than Scrapy. The work you put into Scrapy does result in a huge payoff for scalability and speed.
+The project does not use a specific dataset, but rather, it uses various websites to illustrate the functionality and performance of different web scraping tools. The approach involves setting up and running web scraping tasks using each tool, and evaluating their performance based on speed, scalability, and ability to handle different types of web content.
 
-To set up a Scrapy implementation use this file architecture or something similar:
-![**scrapyProject/
-├── scrapyProject/
-│   ├── __init__.py
-│   ├── items.py
-│   ├── middlewares.py
-│   ├── pipelines.py
-│   ├── settings.py
-│   └── spiders/
-│       ├── __init__.py
-│       ├── spider1.py
-│       └── spider2.py
-└── scrapy.cfg**
-](https://github.com/Connor-Scott/WordPress_blog_scraper/assets/141468326/5e1208a1-a6c1-49dd-9f70-17bdeb0896e0
- "Schematic of Scrapy Scraper Architecture")
+## Key Findings
 
+- **Scrapy** is the best library for large-scale web scraping tasks due to its speed, scalability, and built-in support for custom settings, middleware, and data processing pipelines.
+- **Requests** is suitable for simple tasks that involve importing a single document.
+- **Playwright** is recommended for tasks that require interaction with JavaScript-generated content, especially when speed and scalability are important.
+- **BeautifulSoup** is a good option for parsing HTML and XML documents, but its API is less user-friendly than Playwright's.
+- **Selenium** is not the best choice for web scraping due to its original intent as a tool for web developers to test their webpages.
 
-Inside the spider files you’ll make classes for each spider and set up the scraping architecture. Integrating Playwright with Scrapy is feasible, though implementing Playwright asynchronously within Scrapy is challenging due to its concurrent asynchronous operations. An approach I’ve taken is sending out an asynchronous Playwright program to scout the territory before sending in Scrapy spiders. But this is ideal only if the webpages they link to contain links to other sites in its html content. Otherwise your best bet for sites that rely entirely on client-side scripting with JavaScript is it to just design a Playwright implementation to gather content.
+## Implementation Details
 
-If you have a site that uses JavaScript often but not entirely you’ll benefit from using both. Do this by inserting Playwright code inside of a Scrapy spider. This should be done with Playwright’s synchronous API to avoid overloading Scrapy. However, this can slow your program down. To fix this you can adjust the wait time playwright uses to load content and/or use a while loop to have it quit once your function finds the link they’re looking for. Yielding the web content your after is best gathered with Scrapy’s modules, it’s ever so slightly faster.
+The project provides detailed instructions on setting up a Scrapy implementation, integrating Playwright with Scrapy, and customizing Scrapy spiders for specific tasks. It also discusses strategies for handling JavaScript-heavy websites, dealing with IP bans, and optimizing the speed and scalability of web scraping tasks.
 
-Yielding content is best done with the relative xpaths or the css related to the content you want. An xpath that’s too exact won’t generalize to similar sites, in many cases even if the webpage has the exact same layout. Testing these prior to letting your spiders loose is ideal. Otherwise you’ll end up with a bunch of trash database entries. You could use the console on your favorite browser’s dev tools but I’ve found that sometimes the commands don’t transfer cleanly. Loading a Scrapy interpreter in your terminal makes for convenient testing. This approach allows you to test the relative path using Scrapy functions and sub-functions in a single step. Then just copy that line into the spider class’s function your building. It’s an ideal place to test out your code. If you do run into an error when that spider runs or get peculiarities in your data then 99% of the time it isn’t because of that line of code. Usually the guilty line of code is inside the pipeline’s processing functions when the spider finds a contingency I didn’t outline a conditional for. Other times it’s in the yield statement.
+## Implications and Applications
 
-Another very attractive component of the Scrapy library is proxy rotation. They don’t provide any proxies, it’s outside the scope of the library, but if you’re IP address is getting banned by an overprotective web admin protocol this is an invaluable tool. There are many proxies available for free too. You can even web scrape lists of them from various sites! Then point Scrapy in the direction of those proxies through your projects settings file. It’ll rotate through them.
+Web scraping is a powerful tool for collecting data for machine learning projects, scraping public records, and gathering data for data brokerages. However, it's important to be aware of potential biases that can be introduced during the data collection process, and to ensure that the data collection methods are ethical and legal.
 
-One of the things that surprised me most about scraping some .gov sites is that my IP was never banned, not once. If that’s your goal using proxies is overkill. This does make your spiders more robust though and depending on your use case a valuable asset for your spiders to have.
+## Installation and Requirements
 
-You can customize your spiders in a variety of other ways. Another useful customization is to up the number of retries that your spiders make on each site, and remove any throttling. The settings default to a reasonable level for auto-throttling the number of requests though. It’s really only applicable for large projects, and upping the level of throttling can be helpful for limiting how frequently your IP address gets banned or for eliminating internet bandwidth as a limiting factor.
-
-Scrapy’s settings will also default to ignoring robots.txt, a doc all websites have that I suspect is only ever read by google’s or other search engines vast hoards of spiders. If the webpages that you’re scraping don’t want to be indexed then it won’t make a difference to your spiders. Your spider can crawl on anything.
-
-The settings also default to letting it dump logs and processed data in your terminal:
-
-
-But you can easily change that. I recommend having it process them into .log files and setup Scrapy to send them to a unique folder. This makes it easier to track progress over time and identify errors.
-
-Collecting data for machine learning projects is one of the most helpful applications for web scraping. Many strides have been made in NLP transformers that drastically reduce the need for huge training sets, but for other applications such as image and music generation with ML do require a large amount of training data. In fact a lot of the specifics of your model may not matter much when compared to the need for quality training .jpegs or .midi files. This is how developing fast custom spiders can up the quality of your machine learning projects, enabling the collection of large data sets. It’s important to note that bias can be inserted into these data as a result of your web scraping protocol. Generalizability can be effected as a direct result of unfair sampling by your spiders. 
-
-Scraping public records from .gov sites is another valuable use case. Data brokerages often use web-scraping techniques to gather data, which they usually sell to marketing teams within corporations at a high profit margin. Often the scraping implementation and data verification process does not need to be all that sophisticated to payoff for them either. And more power to them for capitalizing on that.
+This project does not require any specific installation or setup, but it assumes familiarity with Python and basic web scraping concepts. The Python libraries used in this project include Scrapy, requests, Playwright, BeautifulSoup, and Selenium, which can be installed using pip.
