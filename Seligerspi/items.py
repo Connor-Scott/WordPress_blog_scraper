@@ -13,4 +13,3 @@ class tsspost(scrapy.Item):
     text = scrapy.Field()
     date_scraped = scrapy.Field()
     links = scrapy.Field()
-
