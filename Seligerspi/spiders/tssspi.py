@@ -60,4 +60,3 @@ class TSSspi(scrapy.Spider):
                 links=links,
             )
             yield item
-
